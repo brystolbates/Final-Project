@@ -6,17 +6,13 @@ library(tidyverse)
 library(gtsummary)
 
 
-# Load data, already cleaned
+# Load data, already cleaned, but going to update some categories of variables
 
-longbeach <- read_csv(here::here("data", "longbeach.csv") #dataset read in & here usage 1
-)
-
+longbeach <- read_csv(here::here("data", "raw", "longbeach.csv")) #dataset read in & here usage 1
 
 
 
-num_categories <- length(unique(longbeach$intake_type))
-print(num_categories)
-
+#gtsummary table
 
 tbl_summary(
 	longbeach,
@@ -26,8 +22,10 @@ tbl_summary(
 	include = c(animal_type, intake_type, outcome_type, primary_color)
 )
 
-#want to recolor all the primary color variables to condense
 
+#want to recolor all the primary color variables to condense, going to create/use a function
+
+recolor_animals <- function(dataframe_name, input_column_name, new_column_name) {
 color_code <- c(
 	"black"              = "black",
 	"black lynx point"   = "black",
@@ -120,3 +118,7 @@ color_code <- c(
 	"unknown"            = "unknown",
 	"NA"                 = "unknown"
 )
+
+
+
+}
