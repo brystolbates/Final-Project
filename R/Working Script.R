@@ -25,7 +25,10 @@ tbl_summary(
 
 #want to recolor all the primary color variables to condense, going to create/use a function
 
-recolor_animals <- function(dataframe_name, input_column_name, new_column_name) {
+recolor_animals <- function(dataframe_name, input_column_name, new_column_name) {}
+
+
+
 color_code <- c(
 	"black"              = "black",
 	"black lynx point"   = "black",
@@ -119,6 +122,15 @@ color_code <- c(
 	"NA"                 = "unknown"
 )
 
+longbeach_test <- longbeach
+			|> mutate(
+
+		region_cat = factor(region, labels = c("Northeast", "North Central", "South", "West")),
+		sex_cat = factor(sex, labels = c("Male", "Female")),
+		race_eth_cat = factor(race_eth, labels = c("Hispanic", "Black", "Non-Black, Non-Hispanic")),
+		eyesight_cat = factor(eyesight, labels = c("Excellent", "Very good", "Good", "Fair", "Poor")),
+		glasses_cat = factor(glasses, labels = c("No", "Yes"))
+	)
 
 
 }
