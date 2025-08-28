@@ -11,6 +11,9 @@ library(gtsummary)
 longbeach <- read_csv(here::here("data", "longbeach.csv") #dataset read in & here usage 1
 )
 
+
+
+
 num_categories <- length(unique(longbeach$intake_type))
 print(num_categories)
 
@@ -23,7 +26,7 @@ tbl_summary(
 	include = c(animal_type, intake_type, outcome_type, primary_color)
 )
 
-#want to recolor all the primary color varaibles to condense
+#want to recolor all the primary color variables to condense
 
 color_code <- c(
 	"black"              = "black",
