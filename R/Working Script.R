@@ -22,3 +22,98 @@ tbl_summary(
 
 	include = c(animal_type, intake_type, outcome_type, primary_color)
 )
+
+#want to recolor all the primary color varaibles to condense
+
+color_code <- c(
+	"black"              = "black",
+	"black lynx point"   = "black",
+	"black smoke"        = "black",
+	"black tabby"        = "black",
+	"black tiger"        = "black",
+
+	"blue"               = "blue",
+
+	"brown"              = "brown",
+	"brown tabby"        = "brown",
+	"brown tiger"        = "brown",
+	"ch lynx point"      = "brown",
+	"chocolate"          = "brown",
+	"chocolate point"    = "brown",
+	"liver"              = "brown",
+	"red"                = "brown",
+	"red point"          = "brown",
+	"ruddy"              = "brown",
+	"sable"              = "brown",
+
+	"buff"               = "tan",
+	"cream"              = "tan",
+	"cream point"        = "tan",
+	"cream tabby"        = "tan",
+	"cream tiger"        = "tan",
+	"ct lynx point"      = "tan",
+	"fawn"               = "tan",
+	"flame point"        = "tan",
+	"tan"                = "tan",
+	"wheat"              = "tan",
+
+	"green"              = "green",
+
+	"blue cream"         = "grey",
+	"blue lynx point"    = "grey",
+	"blue point"         = "grey",
+	"blue tabby"         = "grey",
+	"gray"               = "grey",
+	"gray tabby"         = "grey",
+	"gray tiger"         = "grey",
+	"lilac lynx point"   = "grey",
+	"lilac point"        = "grey",
+	"lilac_cream point"  = "grey",
+	"lynx point"         = "grey",
+	"point"              = "grey",
+	"seal"               = "grey",
+	"seal point"         = "grey",
+	"silver"             = "grey",
+	"silver lynx point"  = "grey",
+	"silver tabby"       = "grey",
+	"st lynx point"      = "grey",
+
+	"calico"             = "multi",
+	"calico dilute"      = "multi",
+	"calico point"       = "multi",
+	"calico tabby"       = "multi",
+	"snowshoe"           = "multi",
+	"torbi"              = "multi",
+	"tortie"             = "multi",
+	"tortie dilute"      = "multi",
+	"tortie point"       = "multi",
+	"tricolor"           = "multi",
+
+	"orange"             = "orange",
+	"orange tabby"       = "orange",
+	"orange tiger"       = "orange",
+	"peach"              = "orange",
+
+
+	"pink"               = "pink",
+
+	"blue brindle"       = "spotted",
+	"blue merle"         = "spotted",
+	"blue tick"          = "spotted",
+	"brown brindle"      = "spotted",
+	"brown merle"        = "spotted",
+	"dapple"             = "spotted",
+	"liver tick"         = "spotted",
+	"red merle"          = "spotted",
+	"yellow brindle"     = "spotted",
+
+	"white"              = "white",
+
+	"apricot"            = "yellow",
+	"blonde"             = "yellow",
+	"gold"               = "yellow",
+	"yellow"             = "yellow",
+
+	"unknown"            = "unknown",
+	"NA"                 = "unknown"
+)
