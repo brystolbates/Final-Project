@@ -51,13 +51,10 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
 }
 
 
-longbeach_color <- recolor(longbeach,"primary_color","color")
-
-
 #only including dogs and cats, datafile is very large
-longbeach_cd <- longbeach
-								<| filter(longbeach, animal_type == "dog" | animal_type == "cat")
-								<| mutate(recolor(longbeach, primary_color, new_column_name))
+longbeach_cd <- longbeach |>
+								 filter(animal_type == "dog" | animal_type == "cat") |>
+								 recolor("primary_color", "color")
 
 #gtsummary table
 
