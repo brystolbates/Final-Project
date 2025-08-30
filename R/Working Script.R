@@ -40,7 +40,7 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
 	unknown  = c("unknown", "NA")
 )
 
- 	dataframe_name$new_column_name <- "other"
+ 	dataframe_name[[new_column_name]] <- "other"
 
  	for (name in names(color_code)) {
  		match_rows <- dataframe_name[[input_column_name]] %in% color_code[[name]]
