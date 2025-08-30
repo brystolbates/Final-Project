@@ -50,10 +50,10 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
  return(dataframe_name)
 }
 
-
-#only including dogs and cats, datafile is very large
-longbeach_cd <- longbeach |>
-								 filter(animal_type == "dog" | animal_type == "cat") |>
+#among cats processed at the longbeach animal shelter was color and intake condition associated with being alive at the outcome?
+#only including cats, datafile is very large
+longbeach_cats <- longbeach |>
+								 filter(animal_type == "cat") |>
 								 recolor("primary_color", "color")
 
 #gtsummary table
@@ -61,7 +61,25 @@ longbeach_cd <- longbeach |>
 tbl_summary(
 	longbeach_cd,
 
-	by = animal_type,
+	by = outcome_is_dead,
 
-	include = c(outcome_is_dead, was_outcome_alive, primary_color)
-)
+	include = c(animal_type, color, was_outcome_alive,intake_condition),
+
+label = list(
+	animal_type ~ "Animal Type",
+	color ~ "Color",
+	was_outcome_alive ~ "Living at Outcome"
+
+))
+
+
+
+
+
+
+|>
+	add_p(test = list(
+		all_continuous() ~ "t.test",
+		all_categorical() ~ "chisq.test"
+	)) |>
+	add_overall()
