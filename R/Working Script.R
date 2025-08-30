@@ -10,29 +10,10 @@ library(gtsummary)
 
 longbeach <- read_csv(here::here("data", "raw", "longbeach.csv")) #dataset read in & here usage 1
 
-#only including dogs and cats, datafile is very large
-longbeach_cd <- longbeach <|filter(longbeach, animal_type == "dog" | animal_type == "cat")
-
-#gtsummary table
-
-tbl_summary(
-	longbeach_cd,
-
-	by = animal_type,
-
-	include = c(outcome_is_dead, was_outcome_alive, primary_color)
-)
-
 
 #want to recolor all the primary color variables to condense, going to create/use a function
 
-#recolor_animals <- function(dataframe_name, input_column_name, new_column_name) {
-
-#return(dataframe_name$new_column_name)
-}
-
-
-
+#recolor <- function(dataframe_name, input_column_name, new_column_name) {
 color_code <- list(
 	black  = c("black", "black lynx point", "black smoke", "black tabby", "black tiger"),
 	blue   = c("blue"),
@@ -43,11 +24,11 @@ color_code <- list(
 	green  = c("green"),
 
 	grey   = c("blue cream", "blue lynx point", "blue point", "blue tabby", "gray",
-					 "grey","gray tabby","gray tiger", "lilac lynx point", "lilac point",
-					 "lilac_cream point", "lynx point", "point", "seal", "seal point", "silver",
-					 "silver lynx point", "silver tabby", "st lynx point"),
+						 "grey","gray tabby","gray tiger", "lilac lynx point", "lilac point",
+						 "lilac_cream point", "lynx point", "point", "seal", "seal point", "silver",
+						 "silver lynx point", "silver tabby", "st lynx point"),
 	multi   = c("calico", "calico dilute", "calico point", "calico tabby", "snowshoe",
-						"torbi", "tortie", "tortie dilute", "tortie point", "tricolor"),
+							"torbi", "tortie", "tortie dilute", "tortie point", "tricolor"),
 	orange   = c("orange","orange tabby", "orange tiger" , "peach"),
 	pink     = c("pink"),
 	spotted  = c("dapple", "blue brindle", "blue merle", "blue tick", "brown brindle",
@@ -55,17 +36,25 @@ color_code <- list(
 	white    = c("white"),
 	yellow   = c("apricot", "blonde", "gold", "yellow"),
 	unknown  = c("unknown", "NA")
-	)
+)
 
-#longbeach_test <- longbeach
-#			|> mutate(
-
-#		region_cat = factor(region, labels = c("Northeast", "North Central", "South", "West")),
-#		sex_cat = factor(sex, labels = c("Male", "Female")),
-		race_eth_cat = factor(race_eth, labels = c("Hispanic", "Black", "Non-Black, Non-Hispanic")),
-		eyesight_cat = factor(eyesight, labels = c("Excellent", "Very good", "Good", "Fair", "Poor")),
-		glasses_cat = factor(glasses, labels = c("No", "Yes"))
-	)
-
-
+#return(dataframe_name$new_column_name)
 }
+
+
+
+
+#only including dogs and cats, datafile is very large
+longbeach_cd <- longbeach
+								<| filter(longbeach, animal_type == "dog" | animal_type == "cat")
+								<| mutate(recolor(longbeach, primary_color, new_column_name))
+
+#gtsummary table
+
+tbl_summary(
+	longbeach_cd,
+
+	by = animal_type,
+
+	include = c(outcome_is_dead, was_outcome_alive, primary_color)
+)
