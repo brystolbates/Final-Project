@@ -39,16 +39,18 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv")) #dataset read 
 	unknown  = c("unknown", "NA")
 )
 
- 	dataframe_name[[new_column_name]] <- "other"
+ 	dataframe_name$new_column_name <- "other"
 
  	for (name in names(color_code)) {
  		match_rows <- dataframe_name$input_column_name %in% color_code[[category]]
- 		dataframe_name$new_color_name[match_rows] <- category
+ 		dataframe_name$new_column_name[match_rows] <- category
  		}
 
  return(dataframe_name)
 }
 
+
+recolor(longbeach,primary_color,color)
 
 
 #only including dogs and cats, datafile is very large
