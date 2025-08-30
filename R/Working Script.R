@@ -8,7 +8,8 @@ library(gtsummary)
 
 # Load data, already cleaned, but going to update some categories of variables
 
-longbeach <- read_csv(here::here("data", "raw", "longbeach.csv")) #dataset read in & here usage 1
+longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
+#dataset read in & here usage 1
 
 
 #want to recolor all the primary color variables to condense, going to create/use a function
@@ -42,15 +43,15 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv")) #dataset read 
  	dataframe_name$new_column_name <- "other"
 
  	for (name in names(color_code)) {
- 		match_rows <- dataframe_name$input_column_name %in% color_code[[category]]
- 		dataframe_name$new_column_name[match_rows] <- category
+ 		match_rows <- dataframe_name[[input_column_name]] %in% color_code[[name]]
+ 		dataframe_name[[new_column_name]][match_rows] <- name
  		}
 
  return(dataframe_name)
 }
 
 
-recolor(longbeach,primary_color,color)
+longbeach_color <- recolor(longbeach,"primary_color","color")
 
 
 #only including dogs and cats, datafile is very large
