@@ -10,12 +10,13 @@ library(gtsummary)
 
 longbeach <- read_csv(here::here("data", "raw", "longbeach.csv")) #dataset read in & here usage 1
 
-
+#only including dogs and cats, datafile is very large
+longbeach_cd <- filter(longbeach, animal_type == "dog" | animal_type == "cat")
 
 #gtsummary table
 
 tbl_summary(
-	longbeach,
+	longbeach_cd,
 
 	by = outcome_is_dead,
 
@@ -25,7 +26,10 @@ tbl_summary(
 
 #want to recolor all the primary color variables to condense, going to create/use a function
 
-#recolor_animals <- function(dataframe_name, input_column_name, new_column_name) {}
+#recolor_animals <- function(dataframe_name, input_column_name, new_column_name) {
+
+#return(dataframe_name$new_column_name)
+}
 
 
 
