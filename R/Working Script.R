@@ -46,7 +46,8 @@ color_code <- list(
 						"torbi", "tortie", "tortie dilute", "tortie point", "tricolor"),
 	orange   = c("orange","orange tabby", "orange tiger" , "peach"),
 	pink     = c("pink"),
-	spotted  = c("dapple", ends_with("brindle", "merle","tick") ),
+	spotted  = c("dapple", "blue brindle", "blue merle", "blue tick", "brown brindle",
+							 "brown merle", "liver tick", "red merle", "yellow brindle"),
 	white    = c("white"),
 	yellow   = c("apricot", "blonde", "gold", "yellow"),
 	unknown  = c("unknown", "NA")
