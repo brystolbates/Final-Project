@@ -13,8 +13,9 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv")) #dataset read 
 
 #want to recolor all the primary color variables to condense, going to create/use a function
 
-#recolor <- function(dataframe_name, input_column_name, new_column_name) {
-color_code <- list(
+ recolor <- function(dataframe_name, input_column_name, new_column_name) {
+
+ 	color_code <- list(
 	black  = c("black", "black lynx point", "black smoke", "black tabby", "black tiger"),
 	blue   = c("blue"),
 	brown  = c("brown", "brown tabby",	"brown tiger", "ch lynx point", "chocolate",
@@ -38,9 +39,15 @@ color_code <- list(
 	unknown  = c("unknown", "NA")
 )
 
-#return(dataframe_name$new_column_name)
-}
+ 	dataframe_name[[new_column_name]] <- "other"
 
+ 	for (name in names(color_code)) {
+ 		match_rows <- dataframe_name$input_column_name %in% color_code[[category]]
+ 		dataframe_name$new_color_name[match_rows] <- category
+ 		}
+
+ return(dataframe_name)
+}
 
 
 
