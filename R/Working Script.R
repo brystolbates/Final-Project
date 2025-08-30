@@ -25,108 +25,38 @@ tbl_summary(
 
 #want to recolor all the primary color variables to condense, going to create/use a function
 
-recolor_animals <- function(dataframe_name, input_column_name, new_column_name) {}
+#recolor_animals <- function(dataframe_name, input_column_name, new_column_name) {}
 
 
 
-color_code <- c(
-	"black"              = "black",
-	"black lynx point"   = "black",
-	"black smoke"        = "black",
-	"black tabby"        = "black",
-	"black tiger"        = "black",
+color_code <- list(
+	black  = c("black", "black lynx point", "black smoke", "black tabby", "black tiger"),
+	blue   = c("blue"),
+	brown  = c("brown", "brown tabby",	"brown tiger", "ch lynx point", "chocolate",
+						 "chocolate point", "liver", "red", "red point", "ruddy", "sable"),
+	tan    = c("buff", "cream", "cream point", "cream tabby", "cream tiger",
+						 "ct lynx point", "fawn", "flame point", "tan","wheat"),
+	green  = c("green"),
 
-	"blue"               = "blue",
+	grey   = c("blue cream", "blue lynx point", "blue point", "blue tabby", "gray",
+					 "grey","gray tabby","gray tiger", "lilac lynx point", "lilac point",
+					 "lilac_cream point", "lynx point", "point", "seal", "seal point", "silver",
+					 "silver lynx point", "silver tabby", "st lynx point"),
+	multi   = c("calico", "calico dilute", "calico point", "calico tabby", "snowshoe",
+						"torbi", "tortie", "tortie dilute", "tortie point", "tricolor"),
+	orange   = c("orange","orange tabby", "orange tiger" , "peach"),
+	pink     = c("pink"),
+	spotted  = c("dapple", ends_with("brindle", "merle","tick") ),
+	white    = c("white"),
+	yellow   = c("apricot", "blonde", "gold", "yellow"),
+	unknown  = c("unknown", "NA")
+	)
 
-	"brown"              = "brown",
-	"brown tabby"        = "brown",
-	"brown tiger"        = "brown",
-	"ch lynx point"      = "brown",
-	"chocolate"          = "brown",
-	"chocolate point"    = "brown",
-	"liver"              = "brown",
-	"red"                = "brown",
-	"red point"          = "brown",
-	"ruddy"              = "brown",
-	"sable"              = "brown",
+#longbeach_test <- longbeach
+#			|> mutate(
 
-	"buff"               = "tan",
-	"cream"              = "tan",
-	"cream point"        = "tan",
-	"cream tabby"        = "tan",
-	"cream tiger"        = "tan",
-	"ct lynx point"      = "tan",
-	"fawn"               = "tan",
-	"flame point"        = "tan",
-	"tan"                = "tan",
-	"wheat"              = "tan",
-
-	"green"              = "green",
-
-	"blue cream"         = "grey",
-	"blue lynx point"    = "grey",
-	"blue point"         = "grey",
-	"blue tabby"         = "grey",
-	"gray"               = "grey",
-	"gray tabby"         = "grey",
-	"gray tiger"         = "grey",
-	"lilac lynx point"   = "grey",
-	"lilac point"        = "grey",
-	"lilac_cream point"  = "grey",
-	"lynx point"         = "grey",
-	"point"              = "grey",
-	"seal"               = "grey",
-	"seal point"         = "grey",
-	"silver"             = "grey",
-	"silver lynx point"  = "grey",
-	"silver tabby"       = "grey",
-	"st lynx point"      = "grey",
-
-	"calico"             = "multi",
-	"calico dilute"      = "multi",
-	"calico point"       = "multi",
-	"calico tabby"       = "multi",
-	"snowshoe"           = "multi",
-	"torbi"              = "multi",
-	"tortie"             = "multi",
-	"tortie dilute"      = "multi",
-	"tortie point"       = "multi",
-	"tricolor"           = "multi",
-
-	"orange"             = "orange",
-	"orange tabby"       = "orange",
-	"orange tiger"       = "orange",
-	"peach"              = "orange",
-
-
-	"pink"               = "pink",
-
-	"blue brindle"       = "spotted",
-	"blue merle"         = "spotted",
-	"blue tick"          = "spotted",
-	"brown brindle"      = "spotted",
-	"brown merle"        = "spotted",
-	"dapple"             = "spotted",
-	"liver tick"         = "spotted",
-	"red merle"          = "spotted",
-	"yellow brindle"     = "spotted",
-
-	"white"              = "white",
-
-	"apricot"            = "yellow",
-	"blonde"             = "yellow",
-	"gold"               = "yellow",
-	"yellow"             = "yellow",
-
-	"unknown"            = "unknown",
-	"NA"                 = "unknown"
-)
-
-longbeach_test <- longbeach
-			|> mutate(
-
-		region_cat = factor(region, labels = c("Northeast", "North Central", "South", "West")),
-		sex_cat = factor(sex, labels = c("Male", "Female")),
+#		region_cat = factor(region, labels = c("Northeast", "North Central", "South", "West")),
+#		sex_cat = factor(sex, labels = c("Male", "Female")),
 		race_eth_cat = factor(race_eth, labels = c("Hispanic", "Black", "Non-Black, Non-Hispanic")),
 		eyesight_cat = factor(eyesight, labels = c("Excellent", "Very good", "Good", "Fair", "Poor")),
 		glasses_cat = factor(glasses, labels = c("No", "Yes"))
