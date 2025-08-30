@@ -50,6 +50,44 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
  return(dataframe_name)
 }
 
+ #creating another function to relabel becuase its easier than creating new system
+
+ recolor <- function(dataframe_name, input_column_name, new_column_name) {
+
+ 	color_code <- list(
+ 		black  = c("black", "black lynx point", "black smoke", "black tabby", "black tiger"),
+ 		blue   = c("blue"),
+ 		brown  = c("brown", "brown tabby",	"brown tiger", "ch lynx point", "chocolate",
+ 							 "chocolate point", "liver", "red", "red point", "ruddy", "sable"),
+ 		tan    = c("buff", "cream", "cream point", "cream tabby", "cream tiger",
+ 							 "ct lynx point", "fawn", "flame point", "tan","wheat"),
+ 		green  = c("green"),
+
+ 		grey   = c("blue cream", "blue lynx point", "blue point", "blue tabby", "gray",
+ 							 "grey","gray tabby","gray tiger", "lilac lynx point", "lilac point",
+ 							 "lilac_cream point", "lynx point", "point", "seal", "seal point", "silver",
+ 							 "silver lynx point", "silver tabby", "st lynx point"),
+ 		multi   = c("calico", "calico dilute", "calico point", "calico tabby", "snowshoe",
+ 								"torbi", "tortie", "tortie dilute", "tortie point", "tricolor"),
+ 		orange   = c("orange","orange tabby", "orange tiger" , "peach"),
+ 		pink     = c("pink"),
+ 		spotted  = c("dapple", "blue brindle", "blue merle", "blue tick", "brown brindle",
+ 								 "brown merle", "liver tick", "red merle", "yellow brindle"),
+ 		white    = c("white"),
+ 		yellow   = c("apricot", "blonde", "gold", "yellow"),
+ 		unknown  = c("unknown", "NA")
+ 	)
+
+ 	dataframe_name[[new_column_name]] <- "other"
+
+ 	for (name in names(color_code)) {
+ 		match_rows <- dataframe_name[[input_column_name]] %in% color_code[[name]]
+ 		dataframe_name[[new_column_name]][match_rows] <- name
+ 	}
+
+ 	return(dataframe_name)
+ }
+
 #among cats processed at the longbeach animal shelter was color and intake condition associated with being alive at the outcome?
 #only including cats, datafile is very large
 longbeach_cats <- longbeach |>
@@ -59,16 +97,15 @@ longbeach_cats <- longbeach |>
 #gtsummary table
 
 tbl_summary(
-	longbeach_cd,
+	longbeach_cats,
 
 	by = outcome_is_dead,
 
-	include = c(animal_type, color, was_outcome_alive,intake_condition),
+	include = c(color,intake_condition),
 
 label = list(
-	animal_type ~ "Animal Type",
 	color ~ "Color",
-	was_outcome_alive ~ "Living at Outcome"
+	intake_condition ~ "Intake Condition"
 
 ))
 
