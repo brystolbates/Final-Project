@@ -11,16 +11,16 @@ library(gtsummary)
 longbeach <- read_csv(here::here("data", "raw", "longbeach.csv")) #dataset read in & here usage 1
 
 #only including dogs and cats, datafile is very large
-longbeach_cd <- filter(longbeach, animal_type == "dog" | animal_type == "cat")
+longbeach_cd <- longbeach <|filter(longbeach, animal_type == "dog" | animal_type == "cat")
 
 #gtsummary table
 
 tbl_summary(
 	longbeach_cd,
 
-	by = outcome_is_dead,
+	by = animal_type,
 
-	include = c(animal_type, intake_type, outcome_type, primary_color)
+	include = c(outcome_is_dead, was_outcome_alive, primary_color)
 )
 
 
