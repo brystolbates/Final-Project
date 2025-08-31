@@ -4,7 +4,8 @@ install.packages("gtsummary", dependencies = TRUE)
 library(here)
 library(tidyverse)
 library(gtsummary)
-
+install.packages("broom")
+library(broom)
 
 # Load data, already cleaned, but going to update some categories of variables
 
@@ -140,3 +141,8 @@ tbl_regression(
 	bold_p() |>
 	modify_footnote(update = everything() ~ NA) |>
 	modify_caption("**Table 2. Regression of Color and Intake Condition on Outcome**")
+
+
+#make figure - forest plot, best choice for model
+
+tidy_model <- broom::tidy(logistic_model, exponentiate = TRUE, conf.int = TRUE)
