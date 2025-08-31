@@ -72,7 +72,7 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
  	return(dataframe_name)
  }
 
-#among cats processed at the longbeach animal shelter was color and intake condition associated with being alive at the outcome?
+#among cats processed at the longbeach animal shelter was color and intake condition associated with being dead at the outcome?
 #only including cats, datafile is very large
 longbeach_cats <- longbeach |>
 								 filter(animal_type == "cat") |>
@@ -109,3 +109,34 @@ tbl_summary(
 	modify_spanning_header(all_stat_cols() ~ "**Outcome**") |>
 	modify_footnote(update = everything() ~ NA) |>
 	modify_caption("**Table 1. Characteristics of Cats**")
+
+
+#multivariate logistic regression
+#setting categoricals as factors
+longbeach_cats$color  <- factor(longbeach_cats$color)
+longbeach_cats$intake <- factor(longbeach_cats$intake)
+
+#reference levels
+levels(longbeach_cats$color)
+levels(longbeach_cats$intake)
+
+longbeach_cats$color  <- relevel(longbeach_cats$color, ref = "unknown")
+longbeach_cats$intake <- relevel(longbeach_cats$intake, ref = "normal")
+
+# logistic model
+logistic_model <- glm(outcome_is_dead ~ color + intake,
+											data = longbeach_cats, family = binomial()
+)
+
+tbl_regression(
+	logistic_model,
+	exponentiate = TRUE,
+	label = list(
+		color ~ "Color",
+		intake ~ "Intake Condition"
+	)
+) |>
+	bold_labels() |>
+	bold_p() |>
+	modify_footnote(update = everything() ~ NA) |>
+	modify_caption("**Table 2. Regression of Color and Intake Condition on Outcome**")
