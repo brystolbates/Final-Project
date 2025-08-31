@@ -19,7 +19,7 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
  	color_code <- list(
 	black  = c("black", "black lynx point", "black smoke", "black tabby", "black tiger"),
 	blue   = c("blue"),
-	brown  = c("brown", "brown tabby",	"brown tiger", "ch lynx point", "chocolate",
+	brown  = c("brown", "brown tabby", "brown  tabby",	"brown tiger", "brown  tiger", "ch lynx point", "chocolate",
 						 "chocolate point", "liver", "red", "red point", "ruddy", "sable"),
 	tan    = c("buff", "cream", "cream point", "cream tabby", "cream tiger",
 						 "ct lynx point", "fawn", "flame point", "tan","wheat"),
@@ -100,9 +100,12 @@ tbl_summary(
 	by = outcome_is_dead,
 
 	include = c(color,intake),
-
-label = list(
+	label = list(
 	color ~ "Color",
 	intake ~ "Intake Condition"
-
-))
+)) |>
+	add_overall(col_label = "**Total** N = {N}") |>
+	bold_labels() |>
+	modify_spanning_header(all_stat_cols() ~ "**Outcome**") |>
+	modify_footnote(update = everything() ~ NA) |>
+	modify_caption("**Table 1. Characteristics of Cats**")
