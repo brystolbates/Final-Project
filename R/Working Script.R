@@ -84,6 +84,14 @@ longbeach_cats <- longbeach |>
 
 write.csv(longbeach_cats, here("data", "clean", "longbeach_cats.csv"))
 
+#labelling true/false
+
+longbeach_cats$outcome_is_dead <- factor(longbeach_cats$outcome_is_dead,
+
+	levels = c(FALSE, TRUE),
+	labels = c("Alive", "Dead")
+)
+
 #gtsummary table
 
 tbl_summary(
@@ -98,15 +106,3 @@ label = list(
 	intake ~ "Intake Condition"
 
 ))
-
-
-
-
-
-
-|>
-	add_p(test = list(
-		all_continuous() ~ "t.test",
-		all_categorical() ~ "chisq.test"
-	)) |>
-	add_overall()
