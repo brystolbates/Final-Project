@@ -1,29 +1,27 @@
 ---
-title: "Final Project"
+title: "Final Project: Longbeach Animal Shelter Cat Outcomes"
 execute:
-	echo: false 
-format: html
+	echo: false
+author: "Brystol Bates"
+format: 
+  html:
+  	theme:
 editor: visual
-theme:
 ---
 
 ```{r}
 install.packages("here")
 install.packages("tidyverse")
 install.packages("gtsummary", dependencies = TRUE)
-library(here)
-library(tidyverse)
-library(gtsummary)
 install.packages("broom")
+library(here)
+library(tidyverse)   
+library(gtsummary)
 library(broom)
-install.packages("ggplot2")
-library(ggplot2)
-install.packages("readr")
-library(readr)
 
 # Load data
 longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))	
-	}
+
 
 ```
 
@@ -86,7 +84,6 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
 
  	return(dataframe_name)
  }
-	}
 
 ```
 
@@ -103,9 +100,24 @@ longbeach_cats <- longbeach |>
 #saving cleaned csv
 
 write.csv(longbeach_cats, here("data", "clean", "longbeach_cats.csv"))
-	}
 
 ```
+
+# Introduction
+
+Some text
+
+Some *italic text*
+
+Some **bold text**
+
+
+Introduction
+
+This d
+
+#| label: tbl-one
+#| tbl-cap: "Table 1 shows descriptive statistics"
 
 ```{r}
 	#labeling true/false
@@ -117,6 +129,9 @@ longbeach_cats$outcome_is_dead <- factor(longbeach_cats$outcome_is_dead,
 )
 
 #gtsummary table
+
+#| label: tbl-one
+#| tbl-cap: "Table 1 shows descriptive statistics"
 
 tbl_summary(
 	longbeach_cats,
@@ -134,7 +149,7 @@ tbl_summary(
 	modify_footnote(update = everything() ~ NA) |>
 	modify_caption("**Table 1. Characteristics of Cats**")
 	
-	}
+	
 
 ```
 
@@ -169,7 +184,7 @@ tbl_regression(
 	bold_p() |>
 	modify_footnote(update = everything() ~ NA) |>
 	modify_caption("**Table 2. Regression of Color and Intake Condition on Outcome**")
-	}
+	
 
 ```
 
@@ -196,6 +211,6 @@ ggplot(data = clean_model,
 	theme_minimal() +
 	theme(legend.position = "none")
 
-}
+
 
 ```
