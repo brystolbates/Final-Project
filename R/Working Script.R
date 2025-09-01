@@ -6,6 +6,10 @@ library(tidyverse)
 library(gtsummary)
 install.packages("broom")
 library(broom)
+install.packages("ggplot2")
+library(ggplot2)
+install.packages("readr")
+library(readr)
 
 # Load data, already cleaned, but going to update some categories of variables
 
@@ -51,7 +55,7 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
  return(dataframe_name)
 }
 
- #creating another function to relabel becuase its easier than creating new system
+ #creating another function to relabel because its easier than creating new system
 
  recode_intake <- function(dataframe_name, input_column_name, new_column_name) {
 
@@ -76,10 +80,16 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
 #among cats processed at the longbeach animal shelter was color and intake condition associated with being dead at the outcome?
 #only including cats, datafile is very large
 longbeach_cats <- longbeach |>
-								 filter(animal_type == "cat") |>
 								 recolor("primary_color", "color") |>
-							 	 recode_intake("intake_condition", "intake") |>
-								 filter(!(intake == "other"))
+							 	 recode_intake("intake_condition", "intake")  |>
+									filter(animal_type == "cat") |>
+									filter(!(intake == "other"))
+
+longbeach_cats <- longbeach |>
+	recolor("primary_color", "color") |>
+	recode_intake("intake_condition", "intake") |>
+	filter(animal_type == "cat") |>
+	filter(intake != "other")
 
 #saving cleaned csv
 
@@ -145,4 +155,41 @@ tbl_regression(
 
 #make figure - forest plot, best choice for model
 
-tidy_model <- broom::tidy(logistic_model, exponentiate = TRUE, conf.int = TRUE)
+clean_model <- broom::tidy(logistic_model, exponentiate = TRUE, conf.int = TRUE)
+clean_model <- clean_model |>
+							 filter(!(term == "(Intercept)"))
+
+ggplot(data = clean_model,
+			 aes(x = estimate,
+			 		y = term,
+			 		xmin = conf.low,
+			 		xmax = conf.high)) +
+	geom_point()
+
+
+ggplot(df, aes(x = estimate, y = label, xmin = lower_ci, xmax = upper_ci)) +
+	geom_point(aes(shape = is_summary), size = 3) + # Use different shape for summary
+	geom_errorbarh(height = 0.2) + # Horizontal error bars for CI
+	geom_vline(xintercept = 1, linetype = "dashed", color = "red") + # Reference line for no effect
+	labs(x = "Estimate (95% CI)", y = "") + # Axis labels
+	theme_minimal() + # Minimal theme for a clean look
+	theme(legend.position = "none") # Remove legend if not needed
+
+
+ggplot(data = clean_model,
+			 aes(x = eyesight_cat,
+			 		fill = eyesight_cat)) +
+	geom_bar() +
+	facet_grid(cols = vars(glasses_cat)) +
+	scale_fill_brewer(palette = "Spectral",
+										direction = -1) +
+	scale_x_discrete(breaks = c("Excellent",
+															"Good", "Poor"),
+									 name = "Eyesight quality") +
+	theme_minimal() +
+	theme(legend.position = "none",
+				axis.text.x = element_text(
+					angle = 45, vjust = 1, hjust = 1)) +
+	labs(title = "Eyesight in NLSY",
+			 y = NULL) +
+	coord_cartesian(expand = FALSE)
