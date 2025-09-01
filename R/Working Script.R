@@ -79,21 +79,19 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
 
 #among cats processed at the longbeach animal shelter was color and intake condition associated with being dead at the outcome?
 #only including cats, datafile is very large
-longbeach_cats <- longbeach |>
-								 recolor("primary_color", "color") |>
-							 	 recode_intake("intake_condition", "intake")  |>
-									filter(animal_type == "cat") |>
-									filter(!(intake == "other"))
+
 
 longbeach_cats <- longbeach |>
-	recolor("primary_color", "color") |>
-	recode_intake("intake_condition", "intake") |>
-	filter(animal_type == "cat") |>
-	filter(intake != "other")
+									filter(animal_type == "cat") |>
+									recolor("primary_color", "color") |>
+									recode_intake("intake_condition", "intake") |>
+									filter(!(intake == "other"))
 
 #saving cleaned csv
 
 write.csv(longbeach_cats, here("data", "clean", "longbeach_cats.csv"))
+
+longbeach_cats <- read.csv(here::here("data", "clean", "longbeach_cats.csv"))
 
 #labelling true/false
 
@@ -155,25 +153,30 @@ tbl_regression(
 
 #make figure - forest plot, best choice for model
 
+#tidy the model, and only include significant predictor variables
 clean_model <- broom::tidy(logistic_model, exponentiate = TRUE, conf.int = TRUE)
 clean_model <- clean_model |>
-							 filter(!(term == "(Intercept)"))
+							 filter(term == "colorblack" | term == "colorbrown" | term == "colorgrey"
+							 			 |term == "intakeferal_fractious" | term == "intakemild" |
+							 			 	term == "intakemoderate" | term == "intakesevere")
 
+#forest plot creation
 ggplot(data = clean_model,
 			 aes(x = estimate,
 			 		y = term,
 			 		xmin = conf.low,
 			 		xmax = conf.high)) +
-	geom_point()
+
+	geom_point(aes(shape = is_summary), size = 3) +
+	geom_errorbarh(height = 0.2) +
+	geom_vline(xintercept = 1, linetype = "dashed", color = "red") +
+	labs(title = "Significant Predictors of Death at Outcome", x = "Estimate (95% CI)", y = "Predictor") +
+	theme_minimal() +
+	theme(legend.position = "none")
 
 
-ggplot(df, aes(x = estimate, y = label, xmin = lower_ci, xmax = upper_ci)) +
-	geom_point(aes(shape = is_summary), size = 3) + # Use different shape for summary
-	geom_errorbarh(height = 0.2) + # Horizontal error bars for CI
-	geom_vline(xintercept = 1, linetype = "dashed", color = "red") + # Reference line for no effect
-	labs(x = "Estimate (95% CI)", y = "") + # Axis labels
-	theme_minimal() + # Minimal theme for a clean look
-	theme(legend.position = "none") # Remove legend if not needed
+
+
 
 
 ggplot(data = clean_model,
