@@ -121,6 +121,7 @@ tbl_summary(
 
 
 #multivariate logistic regression
+
 #setting categoricals as factors
 longbeach_cats$color  <- factor(longbeach_cats$color)
 longbeach_cats$intake <- factor(longbeach_cats$intake)
