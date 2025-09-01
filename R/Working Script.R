@@ -161,38 +161,17 @@ clean_model <- clean_model |>
 							 			 	term == "intakemoderate" | term == "intakesevere")
 
 #forest plot creation
-ggplot(data = clean_model,
-			 aes(x = estimate,
-			 		y = term,
-			 		xmin = conf.low,
-			 		xmax = conf.high)) +
 
-	geom_point(aes(shape = is_summary), size = 3) +
-	geom_errorbarh(height = 0.2) +
+ggplot(data = clean_model,
+			 aes(x = estimate, y = term)) +
+	geom_point(size = 3) +
+	geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height = 0.2) +
 	geom_vline(xintercept = 1, linetype = "dashed", color = "red") +
-	labs(title = "Significant Predictors of Death at Outcome", x = "Estimate (95% CI)", y = "Predictor") +
+	labs(title = "Predictors of Death at Outcome among Shelter Cats",
+			 x = "Odds Ratio (95% CI)",
+			 y = "Characteristics") +
 	theme_minimal() +
 	theme(legend.position = "none")
 
 
 
-
-
-
-ggplot(data = clean_model,
-			 aes(x = eyesight_cat,
-			 		fill = eyesight_cat)) +
-	geom_bar() +
-	facet_grid(cols = vars(glasses_cat)) +
-	scale_fill_brewer(palette = "Spectral",
-										direction = -1) +
-	scale_x_discrete(breaks = c("Excellent",
-															"Good", "Poor"),
-									 name = "Eyesight quality") +
-	theme_minimal() +
-	theme(legend.position = "none",
-				axis.text.x = element_text(
-					angle = 45, vjust = 1, hjust = 1)) +
-	labs(title = "Eyesight in NLSY",
-			 y = NULL) +
-	coord_cartesian(expand = FALSE)
