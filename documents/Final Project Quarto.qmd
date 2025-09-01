@@ -114,13 +114,13 @@ Some **bold text**
 
 Introduction
 
-This dataset is comprised of the intake and outcome record from Long Beach Animal Shelter during 2017-2024. This analysis focuses on cats only. The median number of hours of sleep on the weekends is `r slp_wkndmean`
+This dataset is comprised of the intake and outcome record from the Long Beach Animal Shelter during 2017-2024. This analysis focuses on **cats only**. The total number of cats processed between 2017 and 2024 was 'r inline_text(longbeach, variable = '), only &&&& are included in this analysis.
 
 Overall the participants got a median of `r inline_text(tbl_sex_sleep, variable = "sleep_wknd")` hours of sleep on the weekends. See **@tbl-median**.
 There were `r inline_text (tbl_sex_sleep, variable = "region_cat", level = "South", column = "stat_1")` **male** participants from the South region.
 
-#| label: tbl-one
-#| tbl-cap: "Table 1 shows descriptive statistics"
+Overall between 2017-2024 the best predictors of being dead at outcome among cats was 'r inline_text (tbl)
+
 
 ```{r}
 	#labeling true/false
@@ -133,26 +133,26 @@ longbeach_cats$outcome_is_dead <- factor(longbeach_cats$outcome_is_dead,
 
 #gtsummary table
 
-#| label: tbl-one
+#| label: tbl-descriptive
 #| tbl-cap: "Table 1 shows descriptive statistics"
 
-tbl_summary(
+tbl_cats <- tbl_summary(
 	longbeach_cats,
-
 	by = outcome_is_dead,
-
-	include = c(color,intake),
+	include = c(color, intake),
 	label = list(
-	color ~ "Color",
-	intake ~ "Intake Condition"
-)) |>
+		color ~ "Color",
+		intake ~ "Intake Condition"
+	),
+	statistic = all_categorical() ~ "{n} ({p}%)"   # <- added to fix the error
+) |>
 	add_overall(col_label = "**Total** N = {N}") |>
 	bold_labels() |>
 	modify_spanning_header(all_stat_cols() ~ "**Outcome**") |>
 	modify_footnote(update = everything() ~ NA) |>
 	modify_caption("**Table 1. Characteristics of Cats**")
-	
-	
+
+print(tbl_cats)
 
 ```
 

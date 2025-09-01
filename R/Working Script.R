@@ -1,7 +1,7 @@
-install.packages("here")
-install.packages("tidyverse")
-install.packages("gtsummary", dependencies = TRUE)
-install.packages("broom")
+#install.packages("here")
+#install.packages("tidyverse")
+#install.packages("gtsummary", dependencies = TRUE)
+#install.packages("broom")
 library(here)
 library(tidyverse)   # includes ggplot2, readr, dplyr, etc.
 library(gtsummary)
@@ -97,24 +97,25 @@ longbeach_cats$outcome_is_dead <- factor(longbeach_cats$outcome_is_dead,
 	labels = c("Alive", "Dead")
 )
 
-#gtsummary table
+# gtsummary table
 
-tbl_summary(
+tbl_cats <- tbl_summary(
 	longbeach_cats,
-
 	by = outcome_is_dead,
-
-	include = c(color,intake),
+	include = c(color, intake),
 	label = list(
-	color ~ "Color",
-	intake ~ "Intake Condition"
-)) |>
+		color ~ "Color",
+		intake ~ "Intake Condition"
+	),
+	statistic = all_categorical() ~ "{n} ({p}%)"   # <- added to fix the error
+) |>
 	add_overall(col_label = "**Total** N = {N}") |>
 	bold_labels() |>
 	modify_spanning_header(all_stat_cols() ~ "**Outcome**") |>
 	modify_footnote(update = everything() ~ NA) |>
 	modify_caption("**Table 1. Characteristics of Cats**")
 
+print(tbl_cats)
 
 #multivariate logistic regression
 
