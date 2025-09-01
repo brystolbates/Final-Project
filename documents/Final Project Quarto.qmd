@@ -10,10 +10,10 @@ editor: visual
 ---
 
 ```{r}
-install.packages("here")
-install.packages("tidyverse")
-install.packages("gtsummary", dependencies = TRUE)
-install.packages("broom")
+#install.packages("here")
+#install.packages("tidyverse")
+#install.packages("gtsummary", dependencies = TRUE)
+#install.packages("broom")
 library(here)
 library(tidyverse)   
 library(gtsummary)

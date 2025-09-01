@@ -1,19 +1,15 @@
 install.packages("here")
 install.packages("tidyverse")
 install.packages("gtsummary", dependencies = TRUE)
-library(here)
-library(tidyverse)
-library(gtsummary)
 install.packages("broom")
+library(here)
+library(tidyverse)   # includes ggplot2, readr, dplyr, etc.
+library(gtsummary)
 library(broom)
-install.packages("ggplot2")
-library(ggplot2)
-install.packages("readr")
-library(readr)
 
 # Load data, already cleaned, but going to update some categories of variables
 
-longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
+longbeach <- readr::read_csv(here::here("data", "raw", "longbeach.csv"))
 #dataset read in & here usage 1
 
 
