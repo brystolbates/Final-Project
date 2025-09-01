@@ -114,7 +114,10 @@ Some **bold text**
 
 Introduction
 
-This d
+This dataset is comprised of the intake and outcome record from Long Beach Animal Shelter during 2017-2024. This analysis focuses on cats only. The median number of hours of sleep on the weekends is `r slp_wkndmean`
+
+Overall the participants got a median of `r inline_text(tbl_sex_sleep, variable = "sleep_wknd")` hours of sleep on the weekends. See **@tbl-median**.
+There were `r inline_text (tbl_sex_sleep, variable = "region_cat", level = "South", column = "stat_1")` **male** participants from the South region.
 
 #| label: tbl-one
 #| tbl-cap: "Table 1 shows descriptive statistics"
@@ -153,6 +156,7 @@ tbl_summary(
 
 ```
 
+See @tbl-one for descriptive statistics.
 ```{r}
 	#multivariate logistic regression
 
