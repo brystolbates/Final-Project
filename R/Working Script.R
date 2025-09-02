@@ -90,6 +90,8 @@ longbeach_cats <- longbeach |>
 									recode_intake("intake_condition", "intake") |>
 									filter(!(intake == "other"))
 
+print(nrow(longbeach_cats))
+
 #saving cleaned csv
 
 write.csv(longbeach_cats, here("data", "clean", "longbeach_cats.csv"))
