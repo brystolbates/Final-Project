@@ -74,7 +74,14 @@ longbeach <- readr::read_csv(here::here("data", "raw", "longbeach.csv"))
  }
 
 #among cats processed at the longbeach animal shelter was color and intake condition associated with being dead at the outcome?
-#only including cats, datafile is very large
+
+ #will include as inline text
+ animal_counts <- count(longbeach, animal_type)
+ total_longbeach_cats <-  filter(animal_counts, animal_type == "cat")
+ print(total_longbeach_cats, variable = "n")
+
+
+ #only including cats, datafile is very large
 
 
 longbeach_cats <- longbeach |>
