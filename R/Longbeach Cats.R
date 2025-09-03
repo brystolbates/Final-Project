@@ -10,7 +10,6 @@ library(broom)
 # Load data, already cleaned, but going to update some categories of variables
 
 longbeach <- readr::read_csv(here::here("data", "raw", "longbeach.csv"))
-#dataset read in & here usage 1
 
 
 #want to recolor all the primary color variables to condense, going to create/use a function
@@ -157,7 +156,7 @@ tbl_regression(
 	bold_labels() |>
 	bold_p() |>
 	modify_footnote(update = everything() ~ NA) |>
-	modify_caption("**Table 2. Regression of Color and Intake Condition on Outcome**")
+	modify_caption("**Table 2. Regression of Death at Outcome on Color and Intake Condition**")
 
 
 #make figure - forest plot, best choice for model
