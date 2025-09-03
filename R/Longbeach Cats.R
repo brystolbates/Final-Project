@@ -96,7 +96,9 @@ print(nrow(longbeach_cats))
 
 write.csv(longbeach_cats, here("data", "clean", "longbeach_cats.csv"))
 
-longbeach_cats <- read.csv(here::here("data", "clean", "longbeach_cats.csv"))
+
+#if animal_type throws error, read in the cleaned data if necessary
+#longbeach_cats <- read.csv(here::here("data", "clean", "longbeach_cats.csv"))
 
 #labeling true/false
 
