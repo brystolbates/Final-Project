@@ -212,4 +212,4 @@ ggplot(data = clean_model,
 ```
 
 
-Overall between 2017-2024 among the included cats the highest OR for death at outcome was an intake condition of severe at **'r (tbl_outcomes, variable = "intake", level = "severe", column = "stat_1")' OR**.
+Overall between 2017-2024, among the included cats, the highest OR for death at outcome was an intake condition of severe at **'r (tbl_outcomes, variable = "intake", level = "severe", column = "stat_1")' OR**.
