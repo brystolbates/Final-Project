@@ -3,3 +3,13 @@ title: "README"
 output: html_document
 ---
 
+This code and Quarto document exam the Longbeach Animal Shelter Data from Tidy Tuesday. 
+Access it at https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-03-04
+
+This dataset is comprised of the intake and outcome record from the Long Beach Animal Shelter during 2017-2024. This analysis focuses on cats only. 
+
+
+IF a primary_color or intake_condition is changed in the original dataset (Longbeach), be sure to update the function(s) "recolor" or "recode_intake, OR it will be labelled as "other". 
+IF "other" appears in the analysis a new color has been introduced that needs to be labelled. 
+
+Run "Longbeach Cats.R" and then render "Longbeach Cats Document.qmd"
