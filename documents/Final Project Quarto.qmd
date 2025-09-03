@@ -5,6 +5,8 @@ format: html
 execute:
   eval: false
   echo: false
+  warning: false
+  message: false
 editor: visual
 ---
 
