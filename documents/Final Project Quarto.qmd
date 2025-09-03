@@ -1,11 +1,10 @@
 ---
 title: "Final Project: Longbeach Animal Shelter Cat Outcomes"
-execute:
-	echo: false
 author: "Brystol Bates"
-format: 
-  html:
-  	theme:
+format: html
+execute:
+  eval: false
+  echo: false
 editor: visual
 ---
 
@@ -108,12 +107,9 @@ write.csv(longbeach_cats, here("data", "clean", "longbeach_cats.csv"))
 
 ```
 
-
 # Introduction
 
-This dataset is comprised of the intake and outcome record from the Long Beach Animal Shelter during 2017-2024. This analysis focuses on *cats only*. The total number of cats processed between 2017 and 2024 was 'r inline_text(total_longbeach_cats, variable = "n")', only 'r inline_text(nrow(longbeach_cats))' are included in this analysis.See **@tbl-descriptive** for characteristics of the included cats.
-
-
+This dataset is comprised of the intake and outcome record from the Long Beach Animal Shelter during 2017-2024. This analysis focuses on *cats only*. The total number of cats processed between 2017 and 2024 was 'r (total_longbeach_cats, variable = "n")', only 'r (nrow(longbeach_cats))' are included in this analysis. See @tbl-descriptive for characteristics of the included cats.
 
 ```{r}
 	#labeling true/false
@@ -145,10 +141,9 @@ tbl_cats <- tbl_summary(
 	modify_footnote(update = everything() ~ NA) |>
 	modify_caption("**Table 1. Characteristics of Cats**")
 
-print(tbl_cats)
+tbl_cats
 
 ```
-
 
 ```{r}
 	#multivariate logistic regression
@@ -184,7 +179,7 @@ tbl_outcomes <- tbl_regression(
 	modify_footnote(update = everything() ~ NA) |>
 	modify_caption("**Table 2. Regression of Color and Intake Condition on Outcome**")
 	
-print(tbl_outcomes)
+tbl_outcomes
 ```
 
 ```{r}
@@ -214,9 +209,5 @@ ggplot(data = clean_model,
 
 ```
 
-Overall the participants got a median of `r inline_text(tbl_sex_sleep, variable = "sleep_wknd")` hours of sleep on the weekends. 
-There were `r inline_text (tbl_sex_sleep, variable = "region_cat", level = "South", column = "stat_1")` **male** participants from the South region.
 
-Overall between 2017-2024 among the included cats the highest OR for death at outcome was an intake condition of severe at **'r inline_text (tbl_outcomes, variable = "intake", level = "severe", column = "stat_1").
-
-
+Overall between 2017-2024 among the included cats the highest OR for death at outcome was an intake condition of severe at **'r (tbl_outcomes, variable = "intake", level = "severe", column = "stat_1")' OR**.
