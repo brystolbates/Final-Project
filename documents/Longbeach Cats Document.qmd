@@ -213,5 +213,4 @@ ggplot(data = clean_model,
 
 ```
 
-
 Overall between 2017-2024, among the included cats, the highest OR for death at outcome was an intake condition of severe at **'r (tbl_outcomes, variable = "intake", level = "severe", column = "stat_1")' OR**.See @fig-forest to compare the odds ratios and confidence intervals for the significantly associated characteristics.
