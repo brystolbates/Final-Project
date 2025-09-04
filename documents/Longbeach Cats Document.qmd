@@ -1,9 +1,9 @@
 ---
 title: "Final Project: Longbeach Animal Shelter Cat Outcomes"
 author: "Brystol Bates"
-format: html
+format: 
+ html: default
 execute:
-  eval: false
   echo: false
   warning: false
   message: false
@@ -89,12 +89,17 @@ longbeach <- read_csv(here::here("data", "raw", "longbeach.csv"))
 ```
 
 ```{r}
-
 	#total cats in longbeach data
 
  animal_counts <- count(longbeach, animal_type)
- total_longbeach_cats <-  filter(animal_counts, animal_type == "cat")
- 
+
+total_longbeach_cats <- animal_counts |>
+  filter(animal_type == "cat") |>
+  pull(n)
+```
+
+```{r}
+
 	#only including cats, datafile is very large
 longbeach_cats <- longbeach |>
 									filter(animal_type == "cat") |>
@@ -111,7 +116,7 @@ write.csv(longbeach_cats, here("data", "clean", "longbeach_cats.csv"))
 
 # Introduction
 
-This dataset is comprised of the intake and outcome record from the Long Beach Animal Shelter during 2017-2024. This analysis focuses on *cats only*. The total number of cats processed between 2017 and 2024 was 'r (total_longbeach_cats, variable = "n")', only 'r (nrow(longbeach_cats))' are included in this analysis. The association between variables color and intake condition, and death at the outcome is explored. See @tbl-descriptive for characteristics of the included cats.
+This dataset is comprised of the intake and outcome record from the Long Beach Animal Shelter during 2017-2024. This analysis focuses on *cats only*. The total number of cats processed between 2017 and 2024 was `r total_longbeach_cats`, only `r nrow(longbeach_cats)` are included in this analysis. The association between variables color and intake condition, and death at the outcome is explored. See @tbl-descriptive for characteristics of the included cats.
 
 ```{r}
 	#labeling true/false
@@ -122,10 +127,11 @@ longbeach_cats$outcome_is_dead <- factor(longbeach_cats$outcome_is_dead,
 	labels = c("Alive", "Dead")
 )
 
-#gtsummary table
+```
 
+```{r}
 #| label: tbl-descriptive
-#| tbl-cap: "Table 1 shows descriptive statistics"
+#| tbl-cap: "Characteristics of Cats"
 
 tbl_cats <- tbl_summary(
 	longbeach_cats,
@@ -140,8 +146,7 @@ tbl_cats <- tbl_summary(
 	add_overall(col_label = "**Total** N = {N}") |>
 	bold_labels() |>
 	modify_spanning_header(all_stat_cols() ~ "**Outcome**") |>
-	modify_footnote(update = everything() ~ NA) |>
-	modify_caption("**Table 1. Characteristics of Cats**")
+	modify_footnote(update = everything() ~ NA)
 
 tbl_cats
 
@@ -154,10 +159,11 @@ tbl_cats
 longbeach_cats$color  <- factor(longbeach_cats$color)
 longbeach_cats$intake <- factor(longbeach_cats$intake)
 
-#reference levels
-levels(longbeach_cats$color)
-levels(longbeach_cats$intake)
+#check levels if needed
+#levels(longbeach_cats$color)
+#levels(longbeach_cats$intake)
 
+#setting ref levels
 longbeach_cats$color  <- relevel(longbeach_cats$color, ref = "unknown")
 longbeach_cats$intake <- relevel(longbeach_cats$intake, ref = "normal")
 
@@ -166,7 +172,11 @@ logistic_model <- glm(outcome_is_dead ~ color + intake,
 											data = longbeach_cats, family = binomial()
 )
 
+```
+
+```{r}
 #| label: tbl-outcomes
+#| fig-cap: "Regression Outcomes"
 
 tbl_outcomes <- tbl_regression(
 	logistic_model,
@@ -179,7 +189,7 @@ tbl_outcomes <- tbl_regression(
 	bold_labels() |>
 	bold_p() |>
 	modify_footnote(update = everything() ~ NA) |>
-	modify_caption("**Table 2. Regression of Color and Intake Condition on Outcome**")
+	modify_caption("**Regression of Color and Intake Condition on Outcome**")
 	
 tbl_outcomes
 ```
@@ -194,23 +204,25 @@ clean_model <- clean_model |>
 							 			 |term == "intakeferal_fractious" | term == "intakemild" |
 							 			 	term == "intakemoderate" | term == "intakesevere")
 
-#forest plot creation
-
-#| label: fig-forest
-
-ggplot(data = clean_model,
-			 aes(x = estimate, y = term)) +
-	geom_point(size = 3) +
-	geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height = 0.2) +
-	geom_vline(xintercept = 1, linetype = "dashed", color = "red") +
-	labs(title = "Predictors of Death at Outcome among Shelter Cats",
-			 x = "Odds Ratio (95% CI)",
-			 y = "Characteristics") +
-	theme_minimal() +
-	theme(legend.position = "none")
-
-
-
 ```
 
-Overall between 2017-2024, among the included cats, the highest OR for death at outcome was an intake condition of severe at **'r (tbl_outcomes, variable = "intake", level = "severe", column = "stat_1")' OR**.See @fig-forest to compare the odds ratios and confidence intervals for the significantly associated characteristics.
+```{r}
+#| label: fig-forest
+#| fig-cap: "Forest plot of predictors of death at outcome"
+
+ggplot(clean_model, aes(x = estimate, y = term)) +
+  geom_point(size = 3) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height = 0.2) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "red") +
+  labs(
+    title = "Predictors of Death at Outcome among Shelter Cats",
+    x = "Odds Ratio (95% CI)",
+    y = "Characteristics"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+# Conclusion
+
+Overall between 2017-2024, among the included cats, the highest OR for death at outcome was an intake condition of severe at **`r inline_text(tbl_outcomes, variable = "intake", level = "severe")` OR**. See @fig-forest to compare the odds ratios and confidence intervals for the significantly associated characteristics.

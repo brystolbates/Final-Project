@@ -14,80 +14,80 @@ longbeach <- readr::read_csv(here::here("data", "raw", "longbeach.csv"))
 
 #want to recolor all the primary color variables to condense, going to create/use a function
 
- recolor <- function(dataframe_name, input_column_name, new_column_name) {
+recolor <- function(dataframe_name, input_column_name, new_column_name) {
 
- 	color_code <- list(
-	black  = c("black", "black lynx point", "black smoke", "black tabby", "black tiger"),
-	blue   = c("blue"),
-	brown  = c("brown", "brown tabby", "brown  tabby",	"brown tiger", "brown  tiger", "ch lynx point", "chocolate",
-						 "chocolate point", "liver", "red", "red point", "ruddy", "sable"),
-	tan    = c("buff", "cream", "cream point", "cream tabby", "cream tiger",
-						 "ct lynx point", "fawn", "flame point", "tan","wheat"),
-	green  = c("green"),
+	color_code <- list(
+		black  = c("black", "black lynx point", "black smoke", "black tabby", "black tiger"),
+		blue   = c("blue"),
+		brown  = c("brown", "brown tabby", "brown  tabby",	"brown tiger", "brown  tiger", "ch lynx point", "chocolate",
+							 "chocolate point", "liver", "red", "red point", "ruddy", "sable"),
+		tan    = c("buff", "cream", "cream point", "cream tabby", "cream tiger",
+							 "ct lynx point", "fawn", "flame point", "tan","wheat"),
+		green  = c("green"),
 
-	grey   = c("blue cream", "blue lynx point", "blue point", "blue tabby", "gray",
-						 "grey","gray tabby","gray tiger", "lilac lynx point", "lilac point",
-						 "lilac_cream point", "lynx point", "point", "seal", "seal point", "silver",
-						 "silver lynx point", "silver tabby", "st lynx point"),
-	multi   = c("calico", "calico dilute", "calico point", "calico tabby", "snowshoe",
-							"torbi", "tortie", "tortie dilute", "tortie point", "tricolor"),
-	orange   = c("orange","orange tabby", "orange tiger" , "peach"),
-	pink     = c("pink"),
-	spotted  = c("dapple", "blue brindle", "blue merle", "blue tick", "brown brindle",
-							 "brown merle", "liver tick", "red merle", "yellow brindle"),
-	white    = c("white"),
-	yellow   = c("apricot", "blonde", "gold", "yellow"),
-	unknown  = c("unknown", "NA")
-)
+		grey   = c("blue cream", "blue lynx point", "blue point", "blue tabby", "gray",
+							 "grey","gray tabby","gray tiger", "lilac lynx point", "lilac point",
+							 "lilac_cream point", "lynx point", "point", "seal", "seal point", "silver",
+							 "silver lynx point", "silver tabby", "st lynx point"),
+		multi   = c("calico", "calico dilute", "calico point", "calico tabby", "snowshoe",
+								"torbi", "tortie", "tortie dilute", "tortie point", "tricolor"),
+		orange   = c("orange","orange tabby", "orange tiger" , "peach"),
+		pink     = c("pink"),
+		spotted  = c("dapple", "blue brindle", "blue merle", "blue tick", "brown brindle",
+								 "brown merle", "liver tick", "red merle", "yellow brindle"),
+		white    = c("white"),
+		yellow   = c("apricot", "blonde", "gold", "yellow"),
+		unknown  = c("unknown", "NA")
+	)
 
- 	dataframe_name[[new_column_name]] <- "other"
+	dataframe_name[[new_column_name]] <- "other"
 
- 	for (name in names(color_code)) {
- 		match_rows <- dataframe_name[[input_column_name]] %in% color_code[[name]]
- 		dataframe_name[[new_column_name]][match_rows] <- name
- 		}
+	for (name in names(color_code)) {
+		match_rows <- dataframe_name[[input_column_name]] %in% color_code[[name]]
+		dataframe_name[[new_column_name]][match_rows] <- name
+	}
 
- return(dataframe_name)
+	return(dataframe_name)
 }
 
- #creating another function to relabel because its easier than creating new system
+#creating another function to relabel because its easier than creating new system
 
- recode_intake <- function(dataframe_name, input_column_name, new_column_name) {
+recode_intake <- function(dataframe_name, input_column_name, new_column_name) {
 
- 	intake_code <- list(
- 		normal  = c("normal"),
- 		mild   = c("behavior mild", "ill mild", "injured mild" ),
- 		moderate  = c("behavior moderate", "ill moderatete", "injured moderate"),
- 		severe    = c("behavior severe", "ill severe", "injured severe"),
- 		feral_fractious = c("feral", "fractious")
- 	)
+	intake_code <- list(
+		normal  = c("normal"),
+		mild   = c("behavior mild", "ill mild", "injured mild" ),
+		moderate  = c("behavior moderate", "ill moderatete", "injured moderate"),
+		severe    = c("behavior severe", "ill severe", "injured severe"),
+		feral_fractious = c("feral", "fractious")
+	)
 
- 	dataframe_name[[new_column_name]] <- "other"
+	dataframe_name[[new_column_name]] <- "other"
 
- 	for (name in names(intake_code)) {
- 		match_rows <- dataframe_name[[input_column_name]] %in% intake_code[[name]]
- 		dataframe_name[[new_column_name]][match_rows] <- name
- 	}
+	for (name in names(intake_code)) {
+		match_rows <- dataframe_name[[input_column_name]] %in% intake_code[[name]]
+		dataframe_name[[new_column_name]][match_rows] <- name
+	}
 
- 	return(dataframe_name)
- }
+	return(dataframe_name)
+}
 
 #among cats processed at the longbeach animal shelter was color and intake condition associated with being dead at the outcome?
 
- #will include as inline text
- animal_counts <- count(longbeach, animal_type)
- total_longbeach_cats <-  filter(animal_counts, animal_type == "cat")
- print(total_longbeach_cats, variable = "n")
+#will include as inline text
+animal_counts <- count(longbeach, animal_type)
+total_longbeach_cats <-  filter(animal_counts, animal_type == "cat")
+print(total_longbeach_cats, variable = "n")
 
 
- #only including cats, datafile is very large
+#only including cats, datafile is very large
 
 
 longbeach_cats <- longbeach |>
-									filter(animal_type == "cat") |>
-									recolor("primary_color", "color") |>
-									recode_intake("intake_condition", "intake") |>
-									filter(!(intake == "other"))
+	filter(animal_type == "cat") |>
+	recolor("primary_color", "color") |>
+	recode_intake("intake_condition", "intake") |>
+	filter(!(intake == "other"))
 
 print(nrow(longbeach_cats))
 
@@ -103,8 +103,8 @@ write.csv(longbeach_cats, here("data", "clean", "longbeach_cats.csv"))
 
 longbeach_cats$outcome_is_dead <- factor(longbeach_cats$outcome_is_dead,
 
-	levels = c(FALSE, TRUE),
-	labels = c("Alive", "Dead")
+																				 levels = c(FALSE, TRUE),
+																				 labels = c("Alive", "Dead")
 )
 
 # gtsummary table
@@ -164,9 +164,9 @@ tbl_regression(
 #tidy the model, and only include significant predictor variables
 clean_model <- broom::tidy(logistic_model, exponentiate = TRUE, conf.int = TRUE)
 clean_model <- clean_model |>
-							 filter(term == "colorblack" | term == "colorbrown" | term == "colorgrey"
-							 			 |term == "intakeferal_fractious" | term == "intakemild" |
-							 			 	term == "intakemoderate" | term == "intakesevere")
+	filter(term == "colorblack" | term == "colorbrown" | term == "colorgrey"
+				 |term == "intakeferal_fractious" | term == "intakemild" |
+				 	term == "intakemoderate" | term == "intakesevere")
 
 #forest plot creation
 
@@ -180,6 +180,5 @@ ggplot(data = clean_model,
 			 y = "Characteristics") +
 	theme_minimal() +
 	theme(legend.position = "none")
-
 
 
